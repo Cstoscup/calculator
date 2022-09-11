@@ -16,78 +16,99 @@ function divide(num1, num2) {
 
 function typeNumbers(event) {
   numberClicked = true;
-  let result = document.querySelector(".result");
+
+  let displayBottom = document.querySelector(".display-bottom");
+
   if (!completeNumber) {
-    result.innerHTML = result.innerHTML + event.target.textContent;
+    displayBottom.textContent = displayBottom.textContent + event.target.textContent;
   } else {
-    result.innerHTML = event.target.textContent;
+    displayBottom.textContent = event.target.textContent;
     completeNumber = false;
   }
 }
 
 function typeOperators(event) {
   if (numberClicked === true) {
-    let expression = document.querySelector(".expression");
-    let result = document.querySelector(".result");
     completeNumber = true;
-    num1 = Number(result.innerHTML);
-    expression.innerHTML = result.innerHTML + " " + event.target.textContent;
-    operator = event.target.textContent;
+    operatorClickCount++;
+
+    let displayTop = document.querySelector(".display-top");
+    let displayBottom = document.querySelector(".display-bottom");
+
+    if (num1 === null) {
+      num1 = Number(displayBottom.textContent);
+    } else {
+      num2 = Number(displayBottom.textContent);
+    }
+
+    if (event.target.textContent === "=") {
+      let result = equals();
+      displayTop.textContent = displayTop.textContent + " " + num2 + " =";
+      displayBottom.textContent = result;
+      num1 = null;
+      num2 = null;
+      operatorClickCount = 0;
+    } else if (operatorClickCount === 2) {
+      console.log(num1, num2, operator)
+      let result = equals();
+      console.log(result);
+      operator = event.target.textContent;
+      console.log(operator)
+      displayTop.textContent = result + " " + operator;
+      displayBottom.textContent = "";
+      num1 = result;
+      num2 = null;
+      operatorClickCount = 1;
+    } else {
+      operator = event.target.textContent;
+      displayTop.textContent = displayBottom.textContent + " " + event.target.textContent;
+    }
+  } else {
+    return;
   }
 }
 
-function equals(event) {
-  num2 = Number(document.querySelector(".result").innerHTML);
-
-  console.log(num1);
-  console.log(num2);
-  console.log(multiply(num1, num2))
-
-  let expression = document.querySelector(".expression");
-  let result = document.querySelector(".result");
-  expression.innerHTML = expression.innerHTML + " " + result.innerHTML + " ="
+function equals() {
+  console.log(num1, num2)
   if (operator === "+") {
-    result.innerHTML = Math.round(add(num1, num2) * 100000) / 100000;
+    return Math.round(add(num1, num2) * 100000) / 100000;
   } else if (operator === "-") {
-    result.innerHTML = Math.round(subtract(num1, num2) * 100000) / 100000;
+    return Math.round(subtract(num1, num2) * 100000) / 100000;
   } else if (operator === "×") {
-    result.innerHTML = Math.round(multiply(num1, num2) * 100000) / 100000;
+    return Math.round(multiply(num1, num2) * 100000) / 100000;
   } else {
-    result.innerHTML = Math.round(divide(num1, num2) * 100000) / 100000;
+    return Math.round(divide(num1, num2) * 100000) / 100000;
   }
-  completeNumber = true;
 }
 
 function clear() {
+  completeNumber = false;
   num1 = null;
   num2 = null;
-  completeNumber = false;
-  let expression = document.querySelector(".expression");
-  let result = document.querySelector(".result");
-  expression.innerHTML = "";
-  result.innerHTML = "";
+  let displayTop = document.querySelector(".display-top");
+  let displayBottom = document.querySelector(".display-bottom");
+  displayTop.textContent = "";
+  displayBottom.textContent = "";
 }
 
 function deleteChar() {
-  let result = document.querySelector(".result");
-  deleted = Math.floor(result.innerHTML / 10);
-  result.innerHTML = deleted;
+  let displayBottom = document.querySelector(".display-bottom");
+  deleted = Math.floor(displayBottom.textContent / 10);
+  displayBottom.textContent = deleted;
 }
 
 let numberClicked = false;
 let completeNumber = false;
-let num1;
-let num2;
+let num1 = null;
+let num2 = null;
 let operator;
+let operatorClickCount = 0;
 
 let numBtns = document.querySelectorAll(".number-button");
 numBtns.forEach(button => button.addEventListener("click", typeNumbers));
 
 let opBtns = document.querySelectorAll(".operator-button");
 opBtns.forEach(button => button.addEventListener("click", typeOperators));
-
-let equalBtn = document.querySelector(".equal-button");
-equalBtn.addEventListener("click", equals);
 
 let clearBtn = document.querySelector(".clear-button");
 clearBtn.addEventListener("click", clear);
