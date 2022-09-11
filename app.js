@@ -30,14 +30,14 @@ function typeOperators(event) {
     let expression = document.querySelector(".expression");
     let result = document.querySelector(".result");
     completeNumber = true;
-    num1 = parseInt(result.innerHTML);
+    num1 = Number(result.innerHTML);
     expression.innerHTML = result.innerHTML + " " + event.target.textContent;
     operator = event.target.textContent;
   }
 }
 
 function equals(event) {
-  num2 = parseInt(document.querySelector(".result").innerHTML);
+  num2 = Number(document.querySelector(".result").innerHTML);
 
   console.log(num1);
   console.log(num2);
