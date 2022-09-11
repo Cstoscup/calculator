@@ -68,6 +68,12 @@ function clear() {
   result.innerHTML = "";
 }
 
+function deleteChar() {
+  let result = document.querySelector(".result");
+  deleted = Math.floor(result.innerHTML / 10);
+  result.innerHTML = deleted;
+}
+
 let numberClicked = false;
 let completeNumber = false;
 let num1;
@@ -85,3 +91,6 @@ equalBtn.addEventListener("click", equals);
 
 let clearBtn = document.querySelector(".clear-button");
 clearBtn.addEventListener("click", clear);
+
+let deleteBtn = document.querySelector(".delete-button");
+deleteBtn.addEventListener("click", deleteChar);
