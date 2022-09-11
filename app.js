@@ -17,6 +17,11 @@ function divide(num1, num2) {
 function typeNumbers(event) {
   numberClicked = true;
 
+  if (event.target.textContent === ".") {
+    let point = document.querySelector("#point");
+    point.disabled = true;
+  }
+
   let displayBottom = document.querySelector(".display-bottom");
 
   if (!completeNumber) {
@@ -49,11 +54,8 @@ function typeOperators(event) {
       num2 = null;
       operatorClickCount = 0;
     } else if (operatorClickCount === 2) {
-      console.log(num1, num2, operator)
       let result = equals();
-      console.log(result);
       operator = event.target.textContent;
-      console.log(operator)
       displayTop.textContent = result + " " + operator;
       displayBottom.textContent = "";
       num1 = result;
@@ -70,6 +72,8 @@ function typeOperators(event) {
 
 function equals() {
   console.log(num1, num2)
+  let point = document.querySelector("#point");
+  point.disabled = false;
   if (operator === "+") {
     return Math.round(add(num1, num2) * 100000) / 100000;
   } else if (operator === "-") {
