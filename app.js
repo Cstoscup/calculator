@@ -22,62 +22,49 @@ function typeNumbers(event) {
     point.disabled = true;
   }
 
-  let displayBottom = document.querySelector(".display-bottom");
-
-  if (!completeNumber) {
-    displayBottom.textContent = displayBottom.textContent + event.target.textContent;
+  if (numberComplete === false) {
+    screen.textContent = screen.textContent + event.target.textContent;
   } else {
-    displayBottom.textContent = event.target.textContent;
-    completeNumber = false;
+    screen.textContent = event.target.textContent;
+    numberComplete = false;
   }
 }
 
 function typeOperators(event) {
-  if (numberClicked === true) {
-    completeNumber = true;
-    operatorClickCount++;
+  if (numberClicked === false) {
+    return;
+  } else {
+    numberComplete = true;
     point.disabled = false;
 
-    let displayTop = document.querySelector(".display-top");
-    let displayBottom = document.querySelector(".display-bottom");
-
-    if (num1 === null) {
-      num1 = Number(displayBottom.textContent);
-    } else {
-      num2 = Number(displayBottom.textContent);
-    }
-
-    if (event.target.textContent === "=") {
-      if (num2 === null) {
-        return;
-      }
-      let result = equals();
-      displayTop.textContent = displayTop.textContent + " " + num2 + " =";
-      displayBottom.textContent = result;
-      num1 = null;
-      num2 = null;
-      operatorClickCount = 0;
-    } else if (operatorClickCount === 2) {
-      let result = equals();
+    if (operatorActsAsEquals === false) {
+      num1 = Number(screen.textContent);
       operator = event.target.textContent;
-      displayTop.textContent = result + " " + operator;
-      displayBottom.textContent = "";
-      num1 = result;
-      num2 = null;
-      operatorClickCount = 1;
+      operatorActsAsEquals = true;
     } else {
+      typeEqual();
       operator = event.target.textContent;
-      displayTop.textContent = displayBottom.textContent + " " + event.target.textContent;
+      operatorActsAsEquals = true;
     }
+  }
+}
+
+function typeEqual() {
+  if (typeof(num1) !== "number") {
+    return
   } else {
-    return;
+    num2 = Number(screen.textContent);
+    let result = equals();
+    screen.textContent = result;
+    num1 = result;
+    operatorActsAsEquals = false;
   }
 }
 
 function equals() {
-  console.log(num1, num2)
   let point = document.querySelector("#point");
   point.disabled = false;
+
   if (operator === "+") {
     return Math.round(add(num1, num2) * 100000) / 100000;
   } else if (operator === "-") {
@@ -85,6 +72,9 @@ function equals() {
   } else if (operator === "×") {
     return Math.round(multiply(num1, num2) * 100000) / 100000;
   } else {
+    if (num2 === 0) {
+      return "ERROR!";
+    }
     return Math.round(divide(num1, num2) * 100000) / 100000;
   }
 }
@@ -92,33 +82,31 @@ function equals() {
 function clear() {
   let point = document.querySelector("#point");
   point.disabled = false;
-  completeNumber = false;
-  num1 = null;
-  num2 = null;
-  let displayTop = document.querySelector(".display-top");
-  let displayBottom = document.querySelector(".display-bottom");
-  displayTop.textContent = "";
-  displayBottom.textContent = "";
+  screen.textContent = "";
 }
 
 function deleteChar() {
-  let displayBottom = document.querySelector(".display-bottom");
-  deleted = Math.floor(displayBottom.textContent / 10);
-  displayBottom.textContent = deleted;
+  deleted = Math.floor(Number(screen.textContent) / 10);
+  screen.textContent = deleted;
 }
 
 let numberClicked = false;
-let completeNumber = false;
-let num1 = null;
-let num2 = null;
+let numberComplete = false;
+let num1;
+let num2;
 let operator;
-let operatorClickCount = 0;
+let operatorActsAsEquals = false;
+
+let screen = document.querySelector(".screen");
 
 let numBtns = document.querySelectorAll(".number-button");
 numBtns.forEach(button => button.addEventListener("click", typeNumbers));
 
 let opBtns = document.querySelectorAll(".operator-button");
 opBtns.forEach(button => button.addEventListener("click", typeOperators));
+
+let equalBtn = document.querySelector(".equal-button");
+equalBtn.addEventListener("click", typeEqual);
 
 let clearBtn = document.querySelector(".clear-button");
 clearBtn.addEventListener("click", clear);
