@@ -16,6 +16,7 @@ function divide(num1, num2) {
 
 function typeNumbers(event) {
   let clickedBtns = document.getElementsByClassName("button-clicked");
+  equalBtn.disabled = false;
 
   if (clickedBtns.length > 0) {
     clickedBtns[0].classList.toggle("button-clicked");
@@ -36,12 +37,31 @@ function typeNumbers(event) {
   }
 }
 
+function typeNumbersKey(key) {
+  let clickedBtns = document.getElementsByClassName("button-clicked");
+  equalBtn.disabled = false;
+
+  if (clickedBtns.length > 0) {
+    clickedBtns[0].classList.toggle("button-clicked");
+  }
+
+  numberClicked = true;
+
+  if (numberComplete === false) {
+    screen.textContent = screen.textContent + key;
+  } else {
+    screen.textContent = key;
+    numberComplete = false;
+  }
+}
+
 function typeOperators(event) {
   if (numberClicked === false) {
     return;
   } else {
     numberComplete = true;
     point.disabled = false;
+
     let id = this.id;
     let clickedBtn = document.getElementById(id);
     clickedBtn.classList.add("button-clicked");
@@ -58,11 +78,45 @@ function typeOperators(event) {
   }
 }
 
+function typeOperatorsKey(key) {
+  if (numberClicked === false) {
+    return;
+  } else {
+    numberComplete = true;
+    point.disabled = false;
+
+    let id;
+    if (key === "÷") {
+      id = "divided-by";
+    } else if (key === "×") {
+      id = "times";
+    } else if (key === "-") {
+      id = "minus";
+    } else if (key === "+") {
+      id = "plus";
+    }
+
+    let clickedBtn = document.getElementById(id);
+    clickedBtn.classList.add("button-clicked");
+
+    if (operatorActsAsEquals === false) {
+      num1 = Number(screen.textContent);
+      operator = key;
+      operatorActsAsEquals = true;
+    } else {
+      typeEqual();
+      operator = key;
+      operatorActsAsEquals = true;
+    }
+  }
+}
+
 function typeEqual() {
   if (typeof(num1) !== "number") {
     return
   } else {
     num2 = Number(screen.textContent);
+    equalBtn.disabled = true;
     let result = equals();
     screen.textContent = result;
     num1 = result;
@@ -97,6 +151,7 @@ function clear() {
   operatorActsAsEquals = false;
   let point = document.querySelector("#point");
   point.disabled = false;
+  equalBtn.disabled = false;
   screen.textContent = "";
 }
 
@@ -129,3 +184,52 @@ clearBtn.addEventListener("click", clear);
 
 let deleteBtn = document.querySelector(".delete-button");
 deleteBtn.addEventListener("click", deleteChar);
+
+document.addEventListener("keydown", event => {
+  console.log(event)
+  if (event.key.toLowerCase() === "0") {
+    typeNumbersKey(0);
+  }
+  if (event.key.toLowerCase() === "1") {
+    typeNumbersKey(1);
+  }
+  if (event.key.toLowerCase() === "2") {
+    typeNumbersKey(2);
+  }
+  if (event.key.toLowerCase() === "3") {
+    typeNumbersKey(3);
+  }
+  if (event.key.toLowerCase() === "4") {
+    typeNumbersKey(4);
+  }
+  if (event.key.toLowerCase() === "5") {
+    typeNumbersKey(5);
+  }
+  if (event.key.toLowerCase() === "6") {
+    typeNumbersKey(6);
+  }
+  if (event.key.toLowerCase() === "7") {
+    typeNumbersKey(7);
+  }
+  if (event.key.toLowerCase() === "8") {
+    typeNumbersKey(8);
+  }
+  if (event.key.toLowerCase() === "9") {
+    typeNumbersKey(9);
+  }
+  if (event.key.toLowerCase() === "/") {
+    typeOperatorsKey("÷");
+  }
+  if (event.key.toLowerCase() === "*" && event.shiftKey === true) {
+    typeOperatorsKey("×");
+  }
+  if (event.key.toLowerCase() === "-") {
+    typeOperatorsKey("-");
+  }
+  if (event.key.toLowerCase() === "+" && event.shiftKey === true) {
+    typeOperatorsKey("+");
+  }
+  if (event.key.toLowerCase() === "=") {
+    typeEqual();
+  }
+})
