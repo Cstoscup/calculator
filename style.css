@@ -7,7 +7,7 @@ body {
 
 .calculator {
   border: 1px solid #808080;
-  width: 400px;
+  max-width: 400px;
   border-radius: 10px;
   margin: 20px auto;
   background-color: #808080;
@@ -21,7 +21,7 @@ body {
   text-align: right;
   font-size: 35px;
   padding: 20px;
-  height: 41px;
+  max-height: 41px;
   background-color: white;
   color: #808080;
 }
