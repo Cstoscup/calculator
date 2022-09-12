@@ -229,7 +229,7 @@ document.addEventListener("keydown", event => {
   if (event.key.toLowerCase() === "+" && event.shiftKey === true) {
     typeOperatorsKey("+");
   }
-  if (event.key.toLowerCase() === "=") {
+  if (event.key.toLowerCase() === "=" && equalBtn.disabled === false) {
     typeEqual();
   }
 })
