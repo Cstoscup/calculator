@@ -36,6 +36,7 @@ function typeOperators(event) {
   if (numberClicked === true) {
     completeNumber = true;
     operatorClickCount++;
+    point.disabled = false;
 
     let displayTop = document.querySelector(".display-top");
     let displayBottom = document.querySelector(".display-bottom");
@@ -47,6 +48,9 @@ function typeOperators(event) {
     }
 
     if (event.target.textContent === "=") {
+      if (num2 === null) {
+        return;
+      }
       let result = equals();
       displayTop.textContent = displayTop.textContent + " " + num2 + " =";
       displayBottom.textContent = result;
@@ -86,6 +90,8 @@ function equals() {
 }
 
 function clear() {
+  let point = document.querySelector("#point");
+  point.disabled = false;
   completeNumber = false;
   num1 = null;
   num2 = null;
