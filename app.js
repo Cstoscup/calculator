@@ -101,8 +101,9 @@ function clear() {
 }
 
 function deleteChar() {
-  deleted = Math.floor(Number(screen.textContent) / 10);
-  screen.textContent = deleted;
+  let str = screen.textContent.toString();
+  str = str.slice(0, -1);
+  screen.textContent = Number(str);
 }
 
 let numberClicked = false;
