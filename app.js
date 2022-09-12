@@ -15,6 +15,12 @@ function divide(num1, num2) {
 }
 
 function typeNumbers(event) {
+  let clickedBtns = document.getElementsByClassName("button-clicked");
+
+  if (clickedBtns.length > 0) {
+    clickedBtns[0].classList.toggle("button-clicked");
+  }
+
   numberClicked = true;
 
   if (event.target.textContent === ".") {
@@ -36,6 +42,9 @@ function typeOperators(event) {
   } else {
     numberComplete = true;
     point.disabled = false;
+    let id = this.id;
+    let clickedBtn = document.getElementById(id);
+    clickedBtn.classList.add("button-clicked");
 
     if (operatorActsAsEquals === false) {
       num1 = Number(screen.textContent);
@@ -80,6 +89,12 @@ function equals() {
 }
 
 function clear() {
+  numberClicked = false;
+  numberComplete = false;
+  num1 = null;
+  num2 = null;
+  operator = null;
+  operatorActsAsEquals = false;
   let point = document.querySelector("#point");
   point.disabled = false;
   screen.textContent = "";
