@@ -1,14 +1,21 @@
+body {
+  background: linear-gradient(180.3deg, rgb(221, 221, 221) 5.5%, rgb(110, 136, 161) 90.2%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 .calculator {
-  border: 1px solid black;
+  border: 1px solid #808080;
   width: 400px;
   border-radius: 10px;
   margin: 20px auto;
   font-family: 'Roboto', sans-serif;
-  background-color: rgb(34, 34, 34);
+  background-color: #808080;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .screen {
-  border: 1px solid black;
+  border: 1px solid #808080;
   margin: 20px;
   border-radius: 4px;
   text-align: right;
@@ -16,10 +23,11 @@
   padding: 20px;
   height: 41px;
   background-color: white;
+  color: #808080;
 }
 
 .keypad {
-  border: 1px solid black;
+  border: 1px solid #808080;
   margin: 20px;
   border-radius: 4px;
   background-color: white;
@@ -29,6 +37,17 @@ button {
   height: 50px;
   font-family: inherit;
   font-size: 18px;
+  background-color: #808080;
+  color: white;
+  border: 1px solid #808080;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: all 200ms ease-in-out;
+}
+
+button:hover {
+  background-color: white;
+  color: #808080;
 }
 
 .controls {
